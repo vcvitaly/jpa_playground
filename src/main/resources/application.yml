@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    io.github.vcvitaly: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jpa_playground?currentSchema=public
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+  profiles:
+    active: local
