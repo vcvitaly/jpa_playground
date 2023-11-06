@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 /**
  * MyExceptionHandler.
  *
@@ -15,6 +17,6 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(value = {EntityNotFoundException.class})
     protected ResponseEntity<Object> handleConflict(EntityNotFoundException e) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(NOT_FOUND).body(e.getMessage());
     }
 }
