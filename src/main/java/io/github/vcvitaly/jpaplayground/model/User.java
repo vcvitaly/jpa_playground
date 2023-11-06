@@ -23,8 +23,8 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_pkey_seq")
-    @SequenceGenerator(name = "users_pkey_seq", sequenceName = "users_pkey_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_pk_seq")
+    @SequenceGenerator(name = "users_pk_seq", sequenceName = "users_pk_seq", allocationSize = 1)
     @Column(nullable = false, updatable = false, unique = true)
     private Long id;
 
@@ -36,6 +36,16 @@ public class User {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     @Override
     public final boolean equals(Object o) {

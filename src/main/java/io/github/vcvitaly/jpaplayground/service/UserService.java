@@ -1,6 +1,7 @@
 package io.github.vcvitaly.jpaplayground.service;
 
 import io.github.vcvitaly.jpaplayground.dto.UserDto;
+import io.github.vcvitaly.jpaplayground.dto.UserListViewDto;
 import io.github.vcvitaly.jpaplayground.dto.UserSummaryDto;
 import io.github.vcvitaly.jpaplayground.model.User;
 import io.github.vcvitaly.jpaplayground.repository.UserRepository;
@@ -48,7 +49,7 @@ public class UserService {
 
     public UserSummaryDto getUserDto(Long id) {
         final var user = getUser(id);
-        return toUserDto(user);
+        return toUserSummaryDto(user);
     }
 
     private User getUser(Long id) {
@@ -56,19 +57,37 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("No user with id " + id));
     }
 
-    public List<UserSummaryDto> getUserDtos(Collection<Long> ids) {
+    public List<UserListViewDto> getUserDtos(Collection<Long> ids) {
         final var users = userRepository.findAllByIdInOrderById(ids);
 
         return users.stream()
-                .map(this::toUserDto)
+                .map(this::toUserListViewDto)
                 .toList();
     }
 
-    private UserSummaryDto toUserDto(User user) {
+    public List<UserListViewDto> getUserDtos() {
+        final var users = userRepository.findAll();
+
+        return users.stream()
+                .map(this::toUserListViewDto)
+                .toList();
+    }
+
+    private UserListViewDto toUserListViewDto(User user) {
+        return UserListViewDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
+    }
+
+    private UserSummaryDto toUserSummaryDto(User user) {
         return UserSummaryDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }
