@@ -34,7 +34,7 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	implementation "com.redgate.flyway:flyway-core:10.0.0"
+	implementation "org.flywaydb:flyway-core:9.22.3"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
