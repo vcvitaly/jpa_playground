@@ -1,0 +1,2 @@
+ALTER SEQUENCE IF EXISTS post_comments_pk_seq
+    INCREMENT BY 30;

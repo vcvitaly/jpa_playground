@@ -53,6 +53,10 @@ public class PostComment {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private MyUser user;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

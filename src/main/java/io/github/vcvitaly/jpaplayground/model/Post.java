@@ -59,7 +59,6 @@ public class Post {
     private MyUser user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "post_id")
     private List<PostComment> postComments;
 
     @PrePersist

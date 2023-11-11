@@ -59,8 +59,10 @@ public class MyUser {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_id")
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostComment> postComments;
 
     @PrePersist
     protected void onCreate() {
