@@ -3,6 +3,7 @@ package io.github.vcvitaly.jpaplayground.controller;
 import io.github.vcvitaly.jpaplayground.dto.UserDto;
 import io.github.vcvitaly.jpaplayground.dto.UserListViewDto;
 import io.github.vcvitaly.jpaplayground.dto.UserSummaryDto;
+import io.github.vcvitaly.jpaplayground.dto.UserUpdateDto;
 import io.github.vcvitaly.jpaplayground.service.MyUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,21 +40,20 @@ public class UserController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping("/{id}")
-    public UserSummaryDto getUser(@PathVariable Long id) {
-        return myUserService.getUserDto(id);
+    @GetMapping
+    public UserSummaryDto getUser(Principal principal) {
+        return myUserService.getUserDto(principal.getName());
     }
 
     @ResponseStatus(OK)
     @GetMapping("/all")
     public List<UserListViewDto> getUsers(Principal principal) {
-        System.out.println(principal.getName());
         return myUserService.getUserDtos();
     }
 
     @ResponseStatus(OK)
-    @PutMapping("/{id}")
-    public void updateUser(@PathVariable Long id, @RequestBody @Valid UserDto dto) {
-        myUserService.updateUser(id, dto);
+    @PutMapping
+    public void updateUser(Principal principal, @RequestBody @Valid UserUpdateDto dto) {
+        myUserService.updateUser(principal.getName(), dto);
     }
 }

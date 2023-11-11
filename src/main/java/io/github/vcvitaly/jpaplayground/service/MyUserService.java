@@ -3,12 +3,13 @@ package io.github.vcvitaly.jpaplayground.service;
 import io.github.vcvitaly.jpaplayground.dto.UserDto;
 import io.github.vcvitaly.jpaplayground.dto.UserListViewDto;
 import io.github.vcvitaly.jpaplayground.dto.UserSummaryDto;
+import io.github.vcvitaly.jpaplayground.dto.UserUpdateDto;
 import io.github.vcvitaly.jpaplayground.model.MyUser;
 import io.github.vcvitaly.jpaplayground.repository.MyUserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +44,8 @@ public class MyUserService {
                 savedUser.getId(), savedUser.getFirstName(), savedUser.getLastName());
     }
 
-    public void updateUser(Long id, UserDto dto) {
-        final var user = getUser(id);
+    public void updateUser(String username, UserUpdateDto dto) {
+        final var user = getByUsername(username);
         user.setFirstName(dto.firstName());
         user.setLastName(dto.lastName());
         final var encodedPass = passwordEncoder.encode(dto.password());
@@ -55,8 +56,8 @@ public class MyUserService {
         log.info("Updated a user with id {}", user.getId());
     }
 
-    public UserSummaryDto getUserDto(Long id) {
-        final var user = getUser(id);
+    public UserSummaryDto getUserDto(String username) {
+        final var user = getByUsername(username);
         return toUserSummaryDto(user);
     }
 
