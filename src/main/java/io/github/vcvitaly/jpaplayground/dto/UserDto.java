@@ -9,5 +9,5 @@ import lombok.Builder;
  * @author Vitalii Chura
  */
 @Builder
-public record UserDto(@NotNull String firstName, @NotNull String lastName) {
+public record UserDto(@NotNull String firstName, @NotNull String lastName, @NotNull String username, @NotNull String password) {
 }

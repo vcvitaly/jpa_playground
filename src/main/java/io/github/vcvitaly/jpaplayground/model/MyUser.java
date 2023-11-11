@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * User.
+ * MyUser.
  *
  * @author Vitalii Chura
  */
@@ -33,7 +33,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class MyUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_pk_seq")
@@ -49,6 +49,12 @@ public class User {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
 
     @PrePersist
     protected void onCreate() {
@@ -67,8 +73,8 @@ public class User {
         Class<?> oEffectiveClass = o instanceof HibernateProxy hp ? hp.getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy hp ? hp.getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        User user = (User) o;
-        return getId() != null && Objects.equals(getId(), user.getId());
+        MyUser myUser = (MyUser) o;
+        return getId() != null && Objects.equals(getId(), myUser.getId());
     }
 
     @Override
