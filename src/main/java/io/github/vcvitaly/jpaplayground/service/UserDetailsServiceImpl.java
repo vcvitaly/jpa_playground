@@ -28,7 +28,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return User.builder()
                 .username(myUser.getUsername())
                 .password(myUser.getPassword())
-                .passwordEncoder(passwordEncoder::encode)
                 .build();
     }
 }
