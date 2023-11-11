@@ -1,14 +1,13 @@
 package io.github.vcvitaly.jpaplayground.controller;
 
-import io.github.vcvitaly.jpaplayground.dto.UserDto;
-import io.github.vcvitaly.jpaplayground.dto.UserListViewDto;
-import io.github.vcvitaly.jpaplayground.dto.UserSummaryDto;
-import io.github.vcvitaly.jpaplayground.dto.UserUpdateDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserListViewDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserSummaryDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserUpdateDto;
 import io.github.vcvitaly.jpaplayground.service.MyUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,14 +21,14 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 /**
- * UserController.
+ * MyUserController.
  *
  * @author Vitalii Chura
  */
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class UserController {
+public class MyUserController {
 
     private final MyUserService myUserService;
 

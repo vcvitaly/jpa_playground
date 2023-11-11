@@ -1,6 +1,5 @@
 package io.github.vcvitaly.jpaplayground.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
@@ -22,11 +20,10 @@ import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * Post.
+ * PostComment.
  *
  * @author Vitalii Chura
  */
@@ -36,16 +33,14 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "posts")
-public class Post {
+@Table(name = "post_comments")
+public class PostComment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posts_pk_seq")
-    @SequenceGenerator(name = "posts_pk_seq", sequenceName = "posts_pk_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_comments_pk_seq")
+    @SequenceGenerator(name = "post_comments_pk_seq", sequenceName = "post_comments_pk_seq", allocationSize = 30)
     @Column(nullable = false, updatable = false, unique = true)
     private Long id;
-
-    private String title;
 
     private String body;
 
@@ -55,12 +50,8 @@ public class Post {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private MyUser user;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "post_id")
-    private List<PostComment> postComments;
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
     @PrePersist
     protected void onCreate() {
@@ -79,8 +70,8 @@ public class Post {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Post post = (Post) o;
-        return getId() != null && Objects.equals(getId(), post.getId());
+        PostComment that = (PostComment) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override
@@ -91,7 +82,6 @@ public class Post {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "title = " + title + ")";
+                "id = " + id + ")";
     }
 }

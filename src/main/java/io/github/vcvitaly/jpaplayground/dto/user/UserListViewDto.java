@@ -1,4 +1,4 @@
-package io.github.vcvitaly.jpaplayground.dto;
+package io.github.vcvitaly.jpaplayground.dto.user;
 
 import lombok.Builder;
 

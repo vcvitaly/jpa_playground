@@ -1,13 +1,12 @@
 package io.github.vcvitaly.jpaplayground.service;
 
-import io.github.vcvitaly.jpaplayground.dto.UserDto;
-import io.github.vcvitaly.jpaplayground.dto.UserListViewDto;
-import io.github.vcvitaly.jpaplayground.dto.UserSummaryDto;
-import io.github.vcvitaly.jpaplayground.dto.UserUpdateDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserListViewDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserSummaryDto;
+import io.github.vcvitaly.jpaplayground.dto.user.UserUpdateDto;
 import io.github.vcvitaly.jpaplayground.model.MyUser;
 import io.github.vcvitaly.jpaplayground.repository.MyUserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
