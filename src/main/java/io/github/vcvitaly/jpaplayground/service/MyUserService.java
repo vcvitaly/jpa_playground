@@ -55,6 +55,10 @@ public class MyUserService {
         log.info("Updated a user with id {}", user.getId());
     }
 
+    public MyUser getUser(String username) {
+        return getByUsername(username);
+    }
+
     public UserSummaryDto getUserDto(String username) {
         final var user = getByUsername(username);
         return toUserSummaryDto(user);

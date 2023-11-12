@@ -27,9 +27,9 @@ public class PostService {
     private final PostRepository postRepository;
 
     public void createPost(String username, PostDto dto) {
-        final var userId = myUserService.getUserDto(username).id();
+        final var user = myUserService.getUser(username);
         final var post = Post.builder()
-                .user(MyUser.builder().id(userId).build())
+                .user(user)
                 .title(dto.title())
                 .body(dto.body())
                 .build();
@@ -47,11 +47,30 @@ public class PostService {
 
     private Post getPost(String username, Long id) {
         return postRepository.findByIdAndUserUsername(id, username)
-                .orElseThrow(() -> new EntityNotFoundException("No such port: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("No such post: " + id));
     }
 
+    /**
+     * For internal usage in services
+     */
+    public Post getPost(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No such post: " + id));
+    }
+
+    /**
+     * For usage in controllers
+     */
     public PostSummaryDto getPostDto(String username, Long id) {
         final var post = getPost(username, id);
+        return toPostSummaryDto(post);
+    }
+
+    /**
+     * For internal usage in services
+     */
+    public PostSummaryDto getPostDto(Long id) {
+        final var post = getPost(id);
         return toPostSummaryDto(post);
     }
 
@@ -79,5 +98,12 @@ public class PostService {
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .build();
+    }
+
+    public List<PostListViewDto> getPosts() {
+        final var posts = postRepository.findAll();
+        return posts.stream()
+                .map(this::toPostListViewDto)
+                .toList();
     }
 }

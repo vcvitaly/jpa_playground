@@ -51,8 +51,14 @@ public class PostController {
     }
 
     @ResponseStatus(OK)
-    @GetMapping
-    public List<PostListViewDto> getPosts(Principal principal) {
+    @GetMapping("/mine")
+    public List<PostListViewDto> getMyPosts(Principal principal) {
         return postService.getPosts(principal.getName());
+    }
+
+    @ResponseStatus(OK)
+    @GetMapping
+    public List<PostListViewDto> getPosts() {
+        return postService.getPosts();
     }
 }
