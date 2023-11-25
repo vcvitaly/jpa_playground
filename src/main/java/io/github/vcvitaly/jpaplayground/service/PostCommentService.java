@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class PostCommentService {
     private final PostService postService;
     private final PostCommentRepository postCommentRepository;
 
+    @Transactional
     public void createPostComment(String username, Long postId, PostCommentDto dto) {
         final var user = myUserService.getUser(username);
         final var post = postService.getPost(postId);
@@ -39,6 +41,7 @@ public class PostCommentService {
         log.info("Created a post comment {}", savedPostComment);
     }
 
+    @Transactional
     public void updatePostComment(String username, Long id, PostCommentDto dto) {
         final var postComment = getPostComment(username, id);
         postComment.setBody(dto.body());

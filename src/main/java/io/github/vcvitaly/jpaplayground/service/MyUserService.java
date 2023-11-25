@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class MyUserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void createUser(UserDto dto) {
         final var encodedPass = passwordEncoder.encode(dto.password());
         final var user = MyUser.builder()
@@ -43,6 +45,7 @@ public class MyUserService {
                 savedUser.getId(), savedUser.getFirstName(), savedUser.getLastName());
     }
 
+    @Transactional
     public void updateUser(String username, UserUpdateDto dto) {
         final var user = getByUsername(username);
         user.setFirstName(dto.firstName());
