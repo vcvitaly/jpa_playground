@@ -6,6 +6,7 @@ import io.github.vcvitaly.jpaplayground.dto.post.PostSummaryDto;
 import io.github.vcvitaly.jpaplayground.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,5 +61,11 @@ public class PostController {
     @GetMapping
     public List<PostListViewDto> getPosts() {
         return postService.getPosts();
+    }
+
+    @ResponseStatus(OK)
+    @DeleteMapping("/{id}")
+    public void deletePost(Principal principal, @PathVariable Long id) {
+        postService.deletePost(principal.getName(), id);
     }
 }

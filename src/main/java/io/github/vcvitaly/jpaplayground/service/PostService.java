@@ -25,6 +25,7 @@ import java.util.List;
 public class PostService {
 
     private final MyUserService myUserService;
+    private final PostCommentService postCommentService;
     private final PostRepository postRepository;
 
     @Transactional
@@ -54,26 +55,10 @@ public class PostService {
     }
 
     /**
-     * For internal usage in services
-     */
-    public Post getPost(Long id) {
-        return postRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No such post: " + id));
-    }
-
-    /**
      * For usage in controllers
      */
     public PostSummaryDto getPostDto(String username, Long id) {
         final var post = getPost(username, id);
-        return toPostSummaryDto(post);
-    }
-
-    /**
-     * For internal usage in services
-     */
-    public PostSummaryDto getPostDto(Long id) {
-        final var post = getPost(id);
         return toPostSummaryDto(post);
     }
 
@@ -108,5 +93,12 @@ public class PostService {
         return posts.stream()
                 .map(this::toPostListViewDto)
                 .toList();
+    }
+
+    @Transactional
+    public void deletePost(String username, Long id) {
+        postCommentService.deletePostComments(username, id);
+        postRepository.deleteByIdAndUserUsername(id, username);
+        log.info("Deleted a post with id={}", id);
     }
 }

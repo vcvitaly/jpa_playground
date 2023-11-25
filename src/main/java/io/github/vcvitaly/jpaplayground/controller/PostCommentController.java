@@ -6,6 +6,7 @@ import io.github.vcvitaly.jpaplayground.dto.postcomment.PostCommentSummaryDto;
 import io.github.vcvitaly.jpaplayground.service.PostCommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,5 +50,11 @@ public class PostCommentController {
     @GetMapping
     public List<PostCommentSummaryDto> getPostComments(@PathVariable Long postId) {
         return postCommentService.getPostComments(postId);
+    }
+
+    @ResponseStatus(OK)
+    @DeleteMapping("/{id}")
+    public void deletePostComment(Principal principal, @PathVariable Long postId, @PathVariable Long id) {
+        postCommentService.deletePostComment(principal.getName(), id);
     }
 }
