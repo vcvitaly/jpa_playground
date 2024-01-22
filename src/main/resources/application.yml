@@ -13,7 +13,7 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/jpa_playground?currentSchema=public
+    url: jdbc:postgresql://${JPA_PLAYGROUND_DB_HOST:localhost}:${JPA_PLAYGROUND_DB_PORT:5432}/${JPA_PLAYGROUND_DB_NAME:jpa_playground}?currentSchema=public
     username: postgres
     password: postgres
   jpa:
