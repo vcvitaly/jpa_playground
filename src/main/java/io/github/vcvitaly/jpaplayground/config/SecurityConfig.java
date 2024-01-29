@@ -1,21 +1,19 @@
 package io.github.vcvitaly.jpaplayground.config;
 
-import io.github.vcvitaly.jpaplayground.service.MyUserService;
-import io.github.vcvitaly.jpaplayground.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * SecurityConfig.
@@ -33,8 +31,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
+                .httpBasic(withDefaults())
+                .formLogin(withDefaults())
                 .csrf((csrf) -> csrf.disable());
 
         return http.build();
@@ -49,11 +47,6 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 
         return new ProviderManager(authenticationProvider);
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(MyUserService myUserService, PasswordEncoder passwordEncoder) {
-        return new UserDetailsServiceImpl(myUserService, passwordEncoder);
     }
 
     @Bean
