@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * MyUserService.
@@ -80,6 +81,10 @@ public class MyUserService {
                 .toList();
     }
 
+    public Optional<MyUser> findByUsername(String username) {
+        return myUserRepository.findByUsername(username);
+    }
+
     private UserListViewDto toUserListViewDto(MyUser myUser) {
         return UserListViewDto.builder()
                 .id(myUser.getId())
@@ -98,7 +103,7 @@ public class MyUserService {
                 .build();
     }
 
-    public MyUser getByUsername(String username) {
+    private MyUser getByUsername(String username) {
         return myUserRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("No such user - " + username));
     }
